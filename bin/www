@@ -2,10 +2,9 @@
 var debug = require('debug')('mongorest');
 var app = require('../app');
 var log = require('../libs/log')(module);
+var config = require('../libs/config')
 
-app.set('port', process.env.PORT || 3000);
-
-var server = app.listen(app.get('port'), function () {
+var server = app.listen(config.get('port'), function () {
     log.info('Express server listening on port ' + server.address().port);
     debug('Express server listening on port ' + server.address().port);
 });
