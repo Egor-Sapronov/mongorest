@@ -9,13 +9,25 @@ connection.on('error', function (err) {
     log.error('connectionDb error:', err.message);
 });
 
-connection.once('open', function callback() {
+connection.on('open', function callback() {
     log.info("Connected to DB!");
 
-    module.exports.getCollections = function () {
-        var collections = connection.modelNames();
-        return collections;
-    };
+
 });
 
+module.exports.getCollections = function (callback) {
+    connection.db.collectionNames(function (err, collections) {
+        var names = [];
 
+        if (err) {
+            log.error(err.message);
+        }
+        else {
+            collections.forEach(function (collection) {
+                names.push(collection.name);
+            });
+
+            callback(names);
+        }
+    });
+};
